@@ -47,14 +47,17 @@ public class GameObject {
 
     public void offsetRender(Screen s){
 
-        int rx = this.x;
-        int ry = this.y;
-        this.centerX = x + sprite.width/2;
-        this.centerY = y + sprite.height/2;
-        s.draw(rx + offsetX, ry + offsetY, sprite);
+
+        this.centerX = this.x + sprite.width/2;
+        this.centerY = this.y + sprite.height/2;
+        s.draw(this.x + offsetX, this.y + offsetY, sprite);
         //System.out.println("offsetX: " + offsetX + " offsetY: " + offsetY);
-        mapPosx = rx + offsetX;
-        mapPosy = ry + offsetY;
+        this.mapPosx = this.x;
+        this.mapPosy = this.y;
+    }
+
+    public int getDistance(GameObject g){
+        return (int)Math.sqrt(Math.pow((double)(g.centerX - (centerX + offsetX)), 2) + Math.pow((double)(g.centerY-(centerY + offsetY)),2));
     }
 
     public void tick() {

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Game extends Canvas implements Runnable{
     public static int width = 64;
     public static int height = 64;
-    public static int scale = 5;
+    public static int scale = 10;
     public int frameCount = 0;
     public Player objTest;
     public InputHandler input;
@@ -22,7 +22,7 @@ public class Game extends Canvas implements Runnable{
     public static int offsetX;
     public static int offsetY;
     public GameObject trashman;
-    public ArrayList<GameObject> trashmen = new ArrayList<GameObject>();
+    public ArrayList<Enemy> trashmen = new ArrayList<Enemy>();
 
 
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -33,7 +33,7 @@ public class Game extends Canvas implements Runnable{
 
     public Game(){
 
-        trashman = new GameObject(0,0,true, new Sprite("sprites/playerImg.png", true));
+        //trashman = new GameObject(0,0,true, new Sprite("sprites/playerImg.png", true));
         back = new Background(-width/2,-height/2, new Sprite("sprites/background2.png", false));
         Sprite playerS = new Sprite("sprites/playerImg.png", true);
         objTest = new Player(width/2 - playerS.width/2,height/2 - playerS.height/2, playerS);
@@ -60,8 +60,8 @@ public class Game extends Canvas implements Runnable{
         for (int x = 0; x < mapWidth; x++) {
             for(int y = 0; y < mapHeight; y++)
             {
-                if(x%20 == 0 && y%20 == 0){ //(Math.random() < 0.01) {
-                    GameObject t = new GameObject(x,y,true, new Sprite("sprites/playerImg.png", true));
+                if(x == 100 && y == 100){ //(Math.random() < 0.01) {
+                    Enemy t = new Enemy(x,y,true, new Sprite("sprites/playerImg.png", true));
                     trashmen.add(t);
                 }
             }
@@ -145,11 +145,13 @@ public class Game extends Canvas implements Runnable{
         back.render(screen);
         level.addScreen(0,0,objTest);
         objTest.render(screen);//can I create an array list of gameObj and call those all at once
-        trashman.offsetRender(screen);
+        //.offsetRender(screen);
         //System.out.println("")
+        System.out.println(trashmen.get(0).getDistance(objTest));
+        trashmen.get(0).trackPlayer(objTest);
         for	(int i = 0; i < trashmen.size(); i++) {
 
-            trashmen.get(i).offsetRender(screen);
+            trashmen.get(0).offsetRender(screen);
         }
         Graphics g = bs.getDrawGraphics();
 
