@@ -1,7 +1,6 @@
 package com.ShoelessJo3;
 
-import static com.ShoelessJo3.Game.height;
-import static com.ShoelessJo3.Game.width;
+import com.ShoelessJo3.Entities.Player;
 
 public class Background extends GameObject {
 

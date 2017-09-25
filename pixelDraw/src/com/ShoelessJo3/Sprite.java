@@ -52,6 +52,15 @@ public class Sprite extends Component { //should player extend sprite?
 
     }
 
+    public Sprite(int[] pA, boolean r, int h, int w)
+    {
+        removeCol = r;
+        this.height = h;
+        this.width = w;
+        pixels = pA;
+        removePixel = pixels[0];
+    }
+
     public void flipHorizontal()
     {
         int[] holderArray = new int[height*width];

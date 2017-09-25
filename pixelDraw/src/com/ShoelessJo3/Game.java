@@ -1,5 +1,8 @@
 package com.ShoelessJo3;
 
+import com.ShoelessJo3.Entities.Enemy;
+import com.ShoelessJo3.Entities.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -11,7 +14,7 @@ public class Game extends Canvas implements Runnable{
     public static int width = 64;
     public static int height = 64;
     public static int scale = 10;
-    public int frameCount = 0;
+    public static int frameCount = 0;
     public Player objTest;
     public InputHandler input;
     public Background back;
@@ -36,7 +39,7 @@ public class Game extends Canvas implements Runnable{
         //trashman = new GameObject(0,0,true, new Sprite("sprites/playerImg.png", true));
         back = new Background(-width/2,-height/2, new Sprite("sprites/background2.png", false));
         Sprite playerS = new Sprite("sprites/playerImg.png", true);
-        objTest = new Player(width/2 - playerS.width/2,height/2 - playerS.height/2, playerS);
+        objTest = new Player(width/2 - playerS.width/2 + 5,height/2 - playerS.height/2 + 5, playerS);
         mapWidth = back.sprite.width;
         mapHeight = back.sprite.height;
         level = new Level(mapWidth, mapHeight);
@@ -60,7 +63,7 @@ public class Game extends Canvas implements Runnable{
         for (int x = 0; x < mapWidth; x++) {
             for(int y = 0; y < mapHeight; y++)
             {
-                if(x == 100 && y == 100){ //(Math.random() < 0.01) {
+                if(x%10 == 0 && y%10 == 0){ //(Math.random() < 0.01) {
                     Enemy t = new Enemy(x,y,true, new Sprite("sprites/playerImg.png", true));
                     trashmen.add(t);
                 }
@@ -147,11 +150,12 @@ public class Game extends Canvas implements Runnable{
         objTest.render(screen);//can I create an array list of gameObj and call those all at once
         //.offsetRender(screen);
         //System.out.println("")
-        System.out.println(trashmen.get(0).getDistance(objTest));
-        trashmen.get(0).trackPlayer(objTest);
+        //System.out.println(trashmen.get(0).getAngle(objTest));
+
         for	(int i = 0; i < trashmen.size(); i++) {
 
-            trashmen.get(0).offsetRender(screen);
+            trashmen.get(i).offsetRender(screen);
+            trashmen.get(i).trackPlayer(objTest);
         }
         Graphics g = bs.getDrawGraphics();
 

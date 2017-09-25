@@ -35,7 +35,10 @@ public class GameObject {
     }
 
     public void render(Screen screen) {
-        if (!active) return;
+        if (!active)
+        {
+            return;
+        }
         // render coordinates
 
         int rx = this.x;
@@ -47,7 +50,10 @@ public class GameObject {
 
     public void offsetRender(Screen s){
 
-
+        if (!active)
+        {
+            return;
+        }
         this.centerX = this.x + sprite.width/2;
         this.centerY = this.y + sprite.height/2;
         s.draw(this.x + offsetX, this.y + offsetY, sprite);
@@ -58,6 +64,42 @@ public class GameObject {
 
     public int getDistance(GameObject g){
         return (int)Math.sqrt(Math.pow((double)(g.centerX - (centerX + offsetX)), 2) + Math.pow((double)(g.centerY-(centerY + offsetY)),2));
+    }
+
+    public double getAngle(GameObject g){
+        double upperDist = ((double)(g.centerY-(centerY + offsetY)));
+        double lowerDist = (double)(g.centerX - (centerX + offsetX));
+        //System.out.println("upper dist " + upperDist + " lower dist: " + lowerDist);
+
+        double addAngle = 0;
+
+        if( upperDist < 0 && lowerDist > 0)
+        {
+            addAngle += 0;
+            return Math.atan(Math.abs(upperDist)/Math.abs(lowerDist))*180/3.14 + addAngle;
+        }
+
+        if( upperDist < 0 && lowerDist < 0)
+        {
+            addAngle += 90;
+            return Math.atan(Math.abs(lowerDist)/Math.abs(upperDist))*180/3.14 + addAngle;
+        }
+
+        if( upperDist > 0 && lowerDist < 0)
+        {
+            addAngle += 180;
+            return Math.atan(Math.abs(upperDist)/Math.abs(lowerDist))*180/3.14 + addAngle;
+        }
+
+
+
+        if(upperDist > 0 && lowerDist > 0) {
+            addAngle += 270;
+            return Math.atan(Math.abs(lowerDist)/Math.abs(upperDist))*180/3.14 + addAngle;
+        }
+
+        return 0;
+
     }
 
     public void tick() {

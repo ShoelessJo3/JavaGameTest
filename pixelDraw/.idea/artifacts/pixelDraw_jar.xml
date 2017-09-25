@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="pixelDraw:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/pixelDraw_jar</output-path>
+    <root id="archive" name="pixelDraw.jar">
+      <element id="module-output" name="pixelDraw" />
+    </root>
+  </artifact>
+</component>

@@ -1,26 +1,31 @@
-package com.ShoelessJo3;
+package com.ShoelessJo3.Entities;
 
-import static com.ShoelessJo3.Game.*;
+import com.ShoelessJo3.Game;
+import com.ShoelessJo3.Sprite;
 
-public class Enemy extends GameObject {
+public class Enemy extends Entity {
 
-    public int speed = 1;
-    public int range = 20;
+    public int range = 30;
     public int lastDeltaDist = 0;
     public boolean seen = false;
     public int sightTime = 64;//this is how many ticks the enemy waits after it sees the player if the enemy is out of range
     public int timer = sightTime;
-
+    public int enemyMinDist = 2;
+    public int speed_div = 4;
 
     public Enemy(int xh, int yh, boolean a, Sprite s)
     {
-        super(xh,yh,a,s);
+        super(xh,yh,a,s, 1, 10);
+
     }
 
     public void trackPlayer(Player p){
         int playDist = getDistance(p);
+        double playAngle = getAngle(p);
 
         seen = playDist < range;
+
+
         if(timer > sightTime && !seen)
         {
             //check timer
@@ -40,40 +45,46 @@ public class Enemy extends GameObject {
 
         timer++;
 
-        if(seen) //&& lastDeltaDist > playDist)
+        if(seen && playDist > enemyMinDist) //&& lastDeltaDist > playDist)
         {
 
             //move the enemy to the player with some maths
             if(centerY > p.mapPosy)//enemy above
             {
-                move(0, -speed);
+                move(UP);
             }
 
             if(centerY < p.mapPosy)//enemy below
             {
-                move(0, speed);
+                move(DOWN);
             }
 
             if(centerX < p.mapPosx)//enemy left
             {
-                move(speed,0);
+                move(RIGHT);
+
             }
 
             if(centerX > p.mapPosx)//enemy right
             {
-                move(-speed, 0);
+                move(LEFT);
             }
+
         }
 
         lastDeltaDist = playDist;
         //System.out.println("last delta dist: " + (centerY) + " new dist: " + p.mapPosy);
 
+        if(directionX != lastDirectionX) {
+            sprite.flipHorizontal();
+        }
+
+        lastDirectionX = directionX;
+
+
+
     }
 
-    public void move(int xd, int yd){
-        x += xd;
-        y += yd;
 
-    }
 
 }
