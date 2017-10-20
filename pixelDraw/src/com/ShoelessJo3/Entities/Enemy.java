@@ -3,19 +3,23 @@ package com.ShoelessJo3.Entities;
 import com.ShoelessJo3.Game;
 import com.ShoelessJo3.Sprite;
 
+import java.awt.*;
+
+import static com.ShoelessJo3.Game.*;
+
 public class Enemy extends Entity {
 
-    public int range = 30;
+    public int range = 50;
     public int lastDeltaDist = 0;
     public boolean seen = false;
-    public int sightTime = 64;//this is how many ticks the enemy waits after it sees the player if the enemy is out of range
+    public int sightTime = 240;//this is how many ticks the enemy waits after it sees the player if the enemy is out of range
     public int timer = sightTime;
-    public int enemyMinDist = 2;
-    public int speed_div = 4;
+    public int enemyMinDist = 1;
+    public int speed_div = 2;
 
     public Enemy(int xh, int yh, boolean a, Sprite s)
     {
-        super(xh,yh,a,s, 1, 10);
+        super(xh,yh,a,s, 1, 4);
 
     }
 
@@ -44,28 +48,30 @@ public class Enemy extends Entity {
 
 
         timer++;
+        boolean moveVert = false;
+        boolean moreHoriz = true;
 
         if(seen && playDist > enemyMinDist) //&& lastDeltaDist > playDist)
         {
 
             //move the enemy to the player with some maths
-            if(centerY > p.mapPosy)//enemy above
+            if(centerY > p.mapPosy && frameCount%2 == 0)//enemy above
             {
                 move(UP);
             }
 
-            if(centerY < p.mapPosy)//enemy below
+            if(centerY < p.mapPosy && frameCount%2 == 0)//enemy below
             {
                 move(DOWN);
             }
 
-            if(centerX < p.mapPosx)//enemy left
+            if(centerX < p.mapPosx)// || frameCount%2 == 0))//enemy left
             {
                 move(RIGHT);
 
             }
 
-            if(centerX > p.mapPosx)//enemy right
+            if(centerX > p.mapPosx)//|| frameCount%2 == 0))//enemy right
             {
                 move(LEFT);
             }
@@ -83,7 +89,15 @@ public class Enemy extends Entity {
 
 
 
+
     }
+
+
+    public Rectangle getBounds(){
+        return new Rectangle(scale*(x + offsetX), scale*(y + offsetY),scale*(width+1), scale*(height+1));
+    }
+
+
 
 
 

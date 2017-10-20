@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Sprite extends Component { //should player extend sprite?
 
@@ -15,14 +16,10 @@ public class Sprite extends Component { //should player extend sprite?
     public String spritePath;
     public int removePixel;
     public boolean removeCol;
+    public boolean animation = false;
+
 
     public static Sprite test = new Sprite("sprites/testImage.png", true);
-
-    public int getPixel(int x, int y){
-
-        return pixels[x + y*width];
-    }
-
 
     public Sprite(String p, boolean r) {
         spritePath = p;
@@ -52,14 +49,31 @@ public class Sprite extends Component { //should player extend sprite?
 
     }
 
-    public Sprite(int[] pA, boolean r, int h, int w)
+
+
+    public Sprite(int h, int w, boolean r)
     {
         removeCol = r;
         this.height = h;
         this.width = w;
-        pixels = pA;
-        removePixel = pixels[0];
+        pixels = new int[h*w];
+
+        for(int i =0; i < h*w; i++)
+            pixels[i] = 0;
     }
+
+    public int getPixel(int x, int y){
+
+        return pixels[x + y*width];
+    }
+
+    public void setPixel(int x, int y, int col)
+    {
+        pixels[x + y*width] = col;
+    }
+
+
+
 
     public void flipHorizontal()
     {
@@ -73,6 +87,19 @@ public class Sprite extends Component { //should player extend sprite?
         }
 
         pixels = holderArray;
+    }
+    public void draw(int x0, int y0, Sprite s){
+        for(int x = 0; x < s.width; x++)
+        {
+            for(int y = 0; y < s.height; y++)
+            {
+                int c = s.getPixel(x,y);
+                if((c != s.removePixel || !s.removeCol) && (x + x0 < width && y + y0 < height))
+                    setPixel(x + x0, y +y0, c);
+            }
+        }
+
+
     }
 
     public void flipVertical(){

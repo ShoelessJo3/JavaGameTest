@@ -63,4 +63,35 @@ public class Screen {
             }
         }
     }
+
+    public void drawCircle(int xh, int yh, int r)
+    {
+        double PI = 3.1415926535;
+        double i, angle, x1, y1;
+
+        for(i = 0; i < 360; i += 0.1)
+        {
+            angle = i;
+            x1 = r * Math.cos(angle * PI / 180);
+            y1 = r * Math.sin(angle * PI / 180);
+            setPixel(xh + (int)x1, yh + (int)y1, 0xffff00ff);
+        }
+
+    }
+
+    public void drawCircle(int xh, int yh, int r, int diffusion)
+    {
+        double PI = 3.1415926535;
+        double i, angle, x1, y1;
+
+        for(i = 0; i < 360; i += 0.1)
+        {
+            angle = i;
+            x1 = r * Math.cos(angle * PI / 180);
+            y1 = r * Math.sin(angle * PI / 180);
+            if(((int)(x1))%diffusion == 0 && ((int)y1)%diffusion == 0 )
+                setPixel(xh + (int)x1, yh + (int)y1, 0xff00ff00);
+        }
+
+    }
 }
